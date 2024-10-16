@@ -1,4 +1,4 @@
-FROM alpine:3.17.7
+FROM alpine:3.18
 
 COPY Cargo.* /tmp/iptoasn/
 COPY src /tmp/iptoasn/src
@@ -6,13 +6,13 @@ COPY src /tmp/iptoasn/src
 WORKDIR /tmp/iptoasn
 
 RUN apk add --update --no-cache ca-certificates \
-                                libressl \
-                                llvm-libunwind \
-                                libgcc \
+  libressl \
+  llvm-libunwind \
+  libgcc \
   && apk add --no-cache --virtual .build-rust \
-    rust \
-    cargo \
-    libressl-dev \
+  rust \
+  cargo \
+  libressl-dev \
   \
   && cargo build --release \
   && strip target/release/iptoasn-webservice \
@@ -21,8 +21,8 @@ RUN apk add --update --no-cache ca-certificates \
   \
   && apk del .build-rust \
   && rm -rf  ~/.cargo \
-            /var/cache/apk/* \
-            /tmp/*
+  /var/cache/apk/* \
+  /tmp/*
 
 COPY docker/iptoasn-entrypoint.sh /iptoasn-entrypoint.sh
 RUN chmod +x /iptoasn-entrypoint.sh
